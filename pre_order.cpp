@@ -9,27 +9,27 @@ using namespace std;
 
 vector<pair<int,int>> edges2;
 
-void postorder(vector<int>& weight, EulerTour et){
-    vector<int> post(et.n,0);
+void preorder(vector<int>& weight, EulerTour et){
+    vector<int> pre(et.n,0);
     
     #pragma omp parallel for
-    // populating post[v] for all v
+    // populating pre[v] for all v
     for(int i=0;i<et.num_edges;i++){
         int u,v;
         u=edges2[i].first;
         v=edges2[i].second;
         int j=et.reverse_map[v*MAX_FACTOR+u];
-        // parent of u is v
-        if(et.dist[et.tour_order[i]]>=et.dist[j]){
-            post[u]=weight[i];
+        // parent of v is u
+        if(et.dist[et.tour_order[i]]<et.dist[j]){
+            pre[v]=weight[i]+1;
         }
     }
-    post[et.root]=et.n;
+    pre[et.root]=1;
 
-    // printing postorder traversal
-    cout<<"Postorder traversal:\n";
+    // printing preorder traversal
+    cout<<"Preorder traversal:\n";
     for(int i=0;i<et.n;i++){
-        cout<<(i+1)<<" => "<<(post[i])<<endl;
+        cout<<(i+1)<<" => "<<(pre[i])<<endl;
     }
 }
 
@@ -87,11 +87,11 @@ void assign_weights(vector<int>& weight, EulerTour et){
         int j=et.reverse_map[v*MAX_FACTOR+u];
         // parent of v is u
         if(et.dist[et.tour_order[i]]<et.dist[j]){
-            weight[i]=0;
+            weight[i]=1;
         }
         // parent of u is v
         else{
-            weight[i]=1;
+            weight[i]=0;
         }
     }
 }
@@ -103,9 +103,9 @@ int main(){
     et.list_ranking();
     et.store_order();
     
-    // performing postorder traversal
+    // performing preorder traversal
     vector<int> weight;
     assign_weights(weight,et);
     prefix_sum(weight,et);
-    postorder(weight,et);
+    preorder(weight,et);
 }
