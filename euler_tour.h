@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #define MAX_FACTOR 1000
+#define _DEBUG_ false
 
 using namespace std;
 
@@ -30,7 +31,9 @@ class EulerTour {
     
     void find_successors();
     void list_ranking();
+#ifndef _DEBUG_
     void print_successors();
+#endif
     void print_tour();
     void store_order();
 };

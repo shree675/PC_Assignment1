@@ -141,7 +141,10 @@ void EulerTour::find_successors(){
             }
         }
     }
-    // print_successors();
+
+#ifndef _DEBUG_
+    print_successors();
+#endif
 }
 
 void EulerTour::list_ranking(){
@@ -175,12 +178,6 @@ void EulerTour::list_ranking(){
         for(int i=0;i<num_edges;i++){
             if(edges[i]!=first_edge){
                 predecessor[i]=predecessor2[i];
-            }
-        }
-        
-        #pragma omp parallel for
-        for(int i=0;i<num_edges;i++){
-            if(edges[i]!=first_edge){
                 dist[i]=dist2[i];
             }
         }
@@ -202,25 +199,27 @@ void EulerTour::print_tour(){
     cout<<endl;
 }
 
+#ifndef _DEBUG_
 void EulerTour::print_successors(){
     /*
     * printing need not be done in parallel
     * as this does not count towards the
     * time complexity of the solution
     */
-    for(int i=0;i<predecessor.size();i++){
-        if(predecessor[i]==-1){
+    for(int i=0;i<successor.size();i++){
+        if(successor[i]==-1){
             continue;
         }
         int u=edges[i].first+1;
         int v=edges[i].second+1;
         cout<<u<<" "<<v<<" -> ";
-        u=edges[predecessor[i]].first+1;
-        v=edges[predecessor[i]].second+1;
+        u=edges[successor[i]].first+1;
+        v=edges[successor[i]].second+1;
         cout<<u<<" "<<v<<endl;
     }
     cout<<successor.size()<<" "<<predecessor.size()<<endl;
 }
+#endif
 
 void EulerTour::store_order(){
     tour_order.resize(num_edges,-1);

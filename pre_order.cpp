@@ -28,8 +28,12 @@ void preorder(vector<int>& weight, EulerTour et){
 
     // printing preorder traversal
     cout<<"Preorder traversal:\n";
+    #pragma omp parallel for
     for(int i=0;i<et.n;i++){
-        cout<<(i+1)<<" => "<<(pre[i])<<endl;
+        #pragma omp critical
+        {
+            cout<<(i+1)<<" => "<<(pre[i])<<endl;
+        }
     }
 }
 

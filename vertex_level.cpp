@@ -28,8 +28,12 @@ void vertex_level(vector<int>& weight, EulerTour et){
 
     // printing vertex levels
     cout<<"Vertex levels:\n";
+    #pragma omp parallel for
     for(int i=0;i<et.n;i++){
-        cout<<(i+1)<<" => "<<(level[i])<<endl;
+        #pragma omp critical
+        {
+            cout<<(i+1)<<" => "<<(level[i])<<endl;
+        }
     }
 }
 

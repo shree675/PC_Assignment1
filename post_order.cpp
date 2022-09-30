@@ -28,8 +28,12 @@ void postorder(vector<int>& weight, EulerTour et){
 
     // printing postorder traversal
     cout<<"Postorder traversal:\n";
+    #pragma omp parallel for
     for(int i=0;i<et.n;i++){
-        cout<<(i+1)<<" => "<<(post[i])<<endl;
+        #pragma omp critical
+        {
+            cout<<(i+1)<<" => "<<(post[i])<<endl;
+        }
     }
 }
 
