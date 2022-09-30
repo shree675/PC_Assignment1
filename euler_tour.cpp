@@ -166,19 +166,22 @@ void EulerTour::list_ranking(){
         vector<int> dist2(num_edges,-1);
         vector<int> predecessor2(num_edges,-1);
 
-        #pragma omp parallel for
-        for(int i=0;i<num_edges;i++){
-            if(edges[i]!=first_edge){
-                dist2[i]=dist[i]+dist[predecessor[i]];
-                predecessor2[i]=predecessor[predecessor[i]];
+        #pragma omp parallel shared(dist2,predecessor2)
+        {
+            #pragma omp for
+            for(int i=0;i<num_edges;i++){
+                if(edges[i]!=first_edge){
+                    dist2[i]=dist[i]+dist[predecessor[i]];
+                    predecessor2[i]=predecessor[predecessor[i]];
+                }
             }
-        }
 
-        #pragma omp parallel for
-        for(int i=0;i<num_edges;i++){
-            if(edges[i]!=first_edge){
-                predecessor[i]=predecessor2[i];
-                dist[i]=dist2[i];
+            #pragma omp for
+            for(int i=0;i<num_edges;i++){
+                if(edges[i]!=first_edge){
+                    predecessor[i]=predecessor2[i];
+                    dist[i]=dist2[i];
+                }
             }
         }
     }
