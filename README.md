@@ -1,4 +1,4 @@
-# Parallel-Traversals
+# Parallel-Traversals-PC
 
 This directory contains **OpenMP** parallel implementations of Euler tour, postorder traversal and vertex level calculation.
 
