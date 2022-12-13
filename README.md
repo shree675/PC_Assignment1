@@ -1,7 +1,6 @@
-# Assignment 1
+# Parallel-Traversals
 
-Shreetesh M  
-CS19B037
+This directory contains **OpenMP** parallel implementations of Euler tour, postorder traversal and vertex level calculation.
 
 ## Instructions to Run
 
